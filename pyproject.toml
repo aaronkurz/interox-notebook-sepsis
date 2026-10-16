@@ -1,0 +1,32 @@
+[project]
+name = "interox-notebook-sepsis"
+version = "0.1.0"
+description = "Explaining sepsis case outcomes with interox, as a marimo notebook"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "interox>=0.1.0,<0.2",
+    "eclear>=0.1.0,<0.2",
+    "marimo>=0.23.16",
+    "pandas>=3.0,<4",
+    "pm4py>=2.7.22.2,<2.8",
+    "rustxes>=0.2.11,<0.3",
+    "plotly>=6.7.0,<7",
+]
+
+[dependency-groups]
+dev = [
+    "pylint>=4.0.5",
+    "mypy>=1.20.2",
+    "pandas-stubs>=3.0.0.260204",
+]
+
+[tool.uv]
+# A notebook project, not a library: uv only manages its environment.
+package = false
+
+[tool.mypy]
+
+[[tool.mypy.overrides]]
+module = ["plotly.*", "eclear.*", "interox.*", "rulelearn_ri.*"]
+ignore_missing_imports = true
