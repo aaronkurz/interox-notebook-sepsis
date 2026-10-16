@@ -18,9 +18,6 @@ interox widgets come pre-built from PyPI.
 uv sync
 ```
 
-`uv.lock` is not committed yet: it can only be generated once interox is on
-PyPI. After the first interox release, run `uv lock` once and commit the result.
-
 Then put the event log where the notebook expects it. Logs are not
 redistributed in this repo (`logs/*.xes` is gitignored):
 
