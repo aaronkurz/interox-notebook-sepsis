@@ -78,7 +78,32 @@ def _(pm4py):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    ### 1.2 Build the case log
+    ### 1.2 Add event attributes in code
+
+    ✏️ Edit this cell to add attributes to single events that are easier to write
+    in pandas than to click together in the widget. Every column you add to
+    `custom_event_log` here shows up in the enrichment widget (1.3): enrich from
+    it on the *Event log* tab, or track it on the *Case log* tab (e.g. its
+    `latest` or `max`) to turn it into a case feature.
+    """)
+    return
+
+
+@app.cell
+def _(event_log):
+    custom_event_log = event_log.copy()
+
+    # Example: the hour of the day each event happened.
+    # custom_event_log['hour'] = custom_event_log['time:timestamp'].dt.hour
+
+    custom_event_log.head(2)
+    return (custom_event_log,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### 1.3 Build the case log
 
     The widget below computes new features (*enrichments*). It has two tabs:
 
@@ -114,14 +139,14 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(ACTIVITY, event_log, set_enrichment_applied):
+def _(ACTIVITY, custom_event_log, set_enrichment_applied):
     from eclear.enrichment import counts_spec, tracking_spec
     from eclear import EnrichmentWidget
 
     enricher = EnrichmentWidget(
-        event_log,
+        custom_event_log,
         initial_specs=[
-            *[counts_spec(_activity) for _activity in event_log[ACTIVITY].unique()],
+            *[counts_spec(_activity) for _activity in custom_event_log[ACTIVITY].unique()],
             tracking_spec('concept:name', 'append'),
         ],
         on_apply=lambda: set_enrichment_applied(True),
@@ -133,12 +158,13 @@ def _(ACTIVITY, event_log, set_enrichment_applied):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    ### 1.3 Add your own case features
+    ### 1.4 Add your own case features
 
     ✏️ Edit this cell for anything the widget can't do, e.g. a feature derived
     from three others. The cell runs again
     whenever you press **Apply** in the enrichment widget, so no need to re run it after you ran it first and then make changes in the widget. Removing attributes in the widget that you depend on here may cause failures. `enriched_event_log` holds the
-    events with your event enrichments, `case_log` the case features.
+    events with your attributes from 1.2 and event enrichments, `case_log` the
+    case features.
     """)
     return
 
@@ -160,7 +186,7 @@ def _(enricher, enrichment_applied):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    ### 1.4 Encode features for rule induction
+    ### 1.5 Encode features for rule induction
 
     The rule induction algorithm only accepts text (categorical) and decimal
     (numeric) features. This cell converts everything else:
@@ -244,14 +270,22 @@ def _(normalized_case_log):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    ### 2.2 Exclude cases that are already explained (optional)
+    ### 2.2 Choose the cases to analyse (optional)
 
-    You may already know an explanation for some of the positive cases — from
-    domain knowledge or from an earlier session. Removing those cases focuses the
-    search on the rest. Unlike a rule stored in Part 3, excluded cases are gone
-    completely: they count neither as positive nor as negative.
+    By default every case is analysed. Remove cases here for either of two
+    reasons:
 
-    ✏️ Write the known explanation as a rule and uncomment the example lines.
+    - **Restrict to a baseline population** — the question is only about some of
+      the cases, e.g. only the patients who were admitted.
+    - **Remove cases that are already explained** — you already know an
+      explanation for some of the positive cases, from domain knowledge or from
+      an earlier session, and want to focus the search on the rest.
+
+    Unlike a rule stored in Part 3, removed cases are gone completely: they count
+    neither as positive nor as negative, so precision and recall in Part 3 refer
+    to the remaining cases only.
+
+    ✏️ Write the condition as a rule and uncomment the example lines.
     """)
     return
 
@@ -259,6 +293,7 @@ def _(mo):
 @app.cell
 def _(TARGET, normalized_case_log):
     filtered_case_log = normalized_case_log
+    # Example: remove the cases that were never admitted.
     # rule1 = lambda case: (case['Admission_NC::count'] == 0) & (case['Admission_IC::count'] == 0)
     # explanation1 = filtered_case_log.apply(rule1, axis=1)
     # filtered_case_log = filtered_case_log[~explanation1]
