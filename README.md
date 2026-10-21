@@ -51,12 +51,16 @@ attributes in code, build the case log), define the outcome and choose the cases
 to analyse, explain it interactively (store suggested rules or build your own),
 and inspect the cases behind a rule. Cells marked ✏️ are meant to be edited.
 
+New to the notebooks? `interox_tutorial_sepsis.docx` walks through the sepsis
+notebook step by step; the road fines notebook works the same way.
+
 ## What is here
 
 | File | Role |
 |---|---|
 | `rule_induction_sepsis_marimo_iox.py` | the sepsis notebook |
 | `rule_induction_road_fines_marimo_iox.py` | the road traffic fines notebook |
+| `interox_tutorial_sepsis.docx` | the tutorial (Word): working through the sepsis notebook |
 | `case_explorer.py` | case browsing for part 4; reads interox's public case-log API |
 | `case_timeline.py` | the event timeline plot used by the case explorer |
 
