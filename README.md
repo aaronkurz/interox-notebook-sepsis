@@ -12,10 +12,10 @@ Both follow the same four parts; only the log and the outcome differ.
 - **Road traffic fines** — how an Italian local police force manages fines,
   from creation to payment, appeal or credit collection. By default the notebook
   explains which cases are **not sent for credit collection**; its cell 2.2
-  carries a commented-out baseline (drop fines dismissed by the police, a judge
-  or the prefecture, and fully paid ones). It runs on the full log (150,370
-  cases) without sampling, so expect each induction in Part 3 to take from a few
-  seconds to about a minute.
+  carries a commented-out baseline (drop fines that stop after *Send Fine*,
+  fines dismissed by a judge or the prefecture, and fully paid ones). It runs on
+  the full log (150,370 cases) without sampling, so expect each induction in
+  Part 3 to take from a few seconds to about a minute.
 
 ## Setup
 

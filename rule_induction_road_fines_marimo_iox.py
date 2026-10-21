@@ -308,9 +308,10 @@ def _(mo):
     to the remaining cases only.
 
     For the outcome above, a natural baseline leaves out the cases where credit
-    collection is out of the question anyway: fines dismissed by the police (the
-    variant is just *Create Fine*, *Send Fine*), fines dismissed by a judge or the
-    prefecture (`dismissed`), and fines that are fully paid (`paid`).
+    collection is out of the question anyway: fines that stop after *Send Fine*
+    (the variant is just *Create Fine*, *Send Fine*: no notification, so never
+    collected), fines dismissed by a judge or the prefecture (`dismissed`), and
+    fines that are fully paid (`paid`).
 
     ✏️ Uncomment the example lines to apply that baseline, or write your own
     conditions.
@@ -321,8 +322,8 @@ def _(mo):
 @app.cell
 def _(TARGET, VARIANT, normalized_case_log):
     filtered_case_log = normalized_case_log
-    # Example baseline: drop the cases dismissed by the police, by a judge or the
-    # prefecture, and the fully paid ones.
+    # Example baseline: drop the cases that stop after Send Fine (no notification),
+    # those dismissed by a judge or the prefecture, and the fully paid ones.
     # filtered_case_log = filtered_case_log[
     #     filtered_case_log[VARIANT] != "['Create Fine', 'Send Fine']"]
     # filtered_case_log = filtered_case_log[filtered_case_log['dismissed'] == 'False']

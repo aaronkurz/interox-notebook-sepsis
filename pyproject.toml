@@ -1,7 +1,7 @@
 [project]
-name = "interox-notebook-sepsis"
+name = "interox-notebooks"
 version = "0.1.0"
-description = "Explaining sepsis case outcomes with interox, as a marimo notebook"
+description = "Explaining process outcomes with interox, as marimo notebooks"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
